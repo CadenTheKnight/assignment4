@@ -1,14 +1,15 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 int extraMemoryAllocated;
 
 //helper function
 void swap(int* a, int* b){
 	int temp = *a;
-	a* = b*;
-	b* = temp;
+	*a = *b;
+	*b = temp;
 }
 
 //helper function for mergeSort
@@ -24,8 +25,8 @@ void mergeSort(int pData[], int l, int r)
 
 	int m = (l+r)/2;
 
-	mergeSort(pData[], l, m);
-	mergeSort(pData[], m+1, r);
+	mergeSort(pData, l, m);
+	mergeSort(pData, m+1, r);
 
 	//merge()
 }
@@ -74,7 +75,7 @@ void selectionSort(int* pData, int n)
 	//implemented recursively
 
 	//base case
-	if(n == 0 || n === 1 || pData[0] == NULL) return;
+	if(n == 0 || n == 1 || pData == NULL) return;
 
 	int min = pData[0];
 	int minIdx = 0;
@@ -101,14 +102,20 @@ int parseData(char *inputFileName, int **ppData)
 	FILE* inFile = fopen(inputFileName,"r");
 	int dataSz = 0;
 	*ppData = NULL;
+
+	int tester;
 	
 	if (inFile)
 	{
 		fscanf(inFile,"%d\n",&dataSz);
 		*ppData = (int *)malloc(sizeof(int) * dataSz);
 		// Implement parse data block
+
+		printf("whatchup, data size: %d\n", dataSz);
+		for(int i = 0; i < dataSz; i++){
+			fscanf(inFile, "%d ", &ppData[i]);
+		}
 	}
-	
 	return dataSz;
 }
 
@@ -184,6 +191,7 @@ int main(void)
 		printf("\textra memory allocated\t: %d\n",extraMemoryAllocated);
 		printArray(pDataCopy, dataSz);
 		
+		/*
 		printf("Merge Sort:\n");
 		memcpy(pDataCopy, pDataSrc, dataSz*sizeof(int));
 		extraMemoryAllocated = 0;
@@ -194,6 +202,7 @@ int main(void)
 		printf("\truntime\t\t\t: %.1lf\n",cpu_time_used);
 		printf("\textra memory allocated\t: %d\n",extraMemoryAllocated);
 		printArray(pDataCopy, dataSz);
+		*/
 		
 		free(pDataCopy);
 		free(pDataSrc);
