@@ -4,32 +4,95 @@
 
 int extraMemoryAllocated;
 
+//helper function
+void swap(int* a, int* b){
+	int temp = *a;
+	a* = b*;
+	b* = temp;
+}
+
+//helper function for mergeSort
+void merge(int dat1[], int n1, int dat2[], int n2){
+	//TO-DO
+}
+
 // implement merge sort
 // extraMemoryAllocated counts bytes of extra memory allocated
 void mergeSort(int pData[], int l, int r)
 {
-	
+	//recursive call
+
+	int m = (l+r)/2;
+
+	mergeSort(pData[], l, m);
+	mergeSort(pData[], m+1, r);
+
+	//merge()
 }
 
 // implement insertion sort
 // extraMemoryAllocated counts bytes of memory allocated
 void insertionSort(int* pData, int n)
 {
-	
+	for(int i = 1; i < n; i++){
+		if(pData[i] < pData[i-1]){
+
+			//start sliding
+			int temp = pData[i];
+			for(int j = i-1; j > 0; j--){
+				if(pData[j] > temp){
+					//slide
+					pData[j+1] = pData[j];
+				} else {
+
+					//insert
+					pData[j] = temp;
+					break;
+				}
+			}
+		}
+	}
 }
 
 // implement bubble sort
 // extraMemoryAllocated counts bytes of extra memory allocated
 void bubbleSort(int* pData, int n)
 {
-	
+	for(int j = 0; j < n-1; j++){
+		for(int i = 0; i < n-1; i++){
+			if(pData[i] > pData[i+1]){
+				swap(&pData[i], &pData[i+1]);
+			}
+		}
+	}
 }
 
 // implement selection sort
 // extraMemoryAllocated counts bytes of extra memory allocated
 void selectionSort(int* pData, int n)
 {
-	
+	//implemented recursively
+
+	//base case
+	if(n == 0 || n === 1 || pData[0] == NULL) return;
+
+	int min = pData[0];
+	int minIdx = 0;
+
+	//loop to find minimum value's index
+	for(int i = 1; i < n; i++){
+		if(pData[i] < min){
+			min = pData[i];
+			minIdx = i;
+		}
+	}
+
+	//swap minimum to first spot
+	swap(&pData[0], &pData[minIdx]);
+
+	//recursive call
+	pData++;
+	return selectionSort(pData, n-1);
 }
 
 // parses input file to an integer array
