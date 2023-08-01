@@ -148,11 +148,11 @@ int parseData(char *inputFileName, int **ppData)
 		// Implement parse data block
 
 		//printf("whatchup, data size: %d\n", dataSz);
-		/*for(int i = 0; i < dataSz; i++){
+		/*
+		for(int i = 0; i < dataSz; i++){
 			fscanf(inFile, "%d", &ppData[i]);
 			//printf("%d ", ppData[i]);
-		}
-		*/
+		}*/
 	}
 	//printf("\nout of file\n");
 	fclose(inFile);
