@@ -12,23 +12,61 @@ void swap(int* a, int* b){
 	*b = temp;
 }
 
-//helper function for mergeSort
-void merge(int dat1[], int n1, int dat2[], int n2){
-	//TO-DO
+int* merge(int* arr, int l, int m, int h){
+    int p1 = 0;
+    int p2 = 0;
+
+	int n1 = m - l + 1;
+	int n2 = h - m;
+
+    //malloc new arr to return
+    int* leftArr = (int*)malloc(sizeof(int)*(n1));
+	int* rightArr = (int*)malloc(sizeof(int)*(n1));
+
+	//copy into temp arrays
+	for(int i = 0; i < n1; i++){
+		leftArr[i] = arr[l + i];
+	}
+	for(int i = 0; i < n2; i++){
+		rightArr[i] = arr[m + 1 + i];
+	}
+
+    while(p1 < n1 && p2 < n2){
+        if(leftArr[p1] < rightArr[p2]){
+            arr[p1 + p2] = leftArr[p1++];
+        } else {
+            arr[p1 + p2] = rightArr[p2++];
+        }
+    }
+
+    //at this point, one of the smaller arrays has emptied
+    //if arr1 has emptied, empty the rest of arr2 into arr
+	for(int i = p2; i < n2; i++){
+		arr[p1 + i] = leftArr[i];
+	}
+
+    //if arr2 has emptied, empty the rest of arr1 into arr
+	for(int i = p1; i < n1; i++){
+		arr[p2 + i] = rightArr[i];
+	}
+
+    free(leftArr);
+    free(rightArr);
+
+    return arr;
 }
 
-// implement merge sort
-// extraMemoryAllocated counts bytes of extra memory allocated
-void mergeSort(int pData[], int l, int r)
-{
-	//recursive call
+void mergeSort(int* arr, int l, int h) {
+    if(l < h){
 
-	int m = (l+r)/2;
+        int m = (l+h)/2;
 
-	mergeSort(pData, l, m);
-	mergeSort(pData, m+1, r);
+        mergeSort(arr, l, m);
 
-	//merge()
+        mergeSort(arr, m+1, h);
+
+        arr = merge(arr, l, m, h);
+    }
 }
 
 // implement insertion sort
@@ -102,8 +140,6 @@ int parseData(char *inputFileName, int **ppData)
 	FILE* inFile = fopen(inputFileName,"r");
 	int dataSz = 0;
 	*ppData = NULL;
-
-	int tester;
 	
 	if (inFile)
 	{
@@ -111,11 +147,15 @@ int parseData(char *inputFileName, int **ppData)
 		*ppData = (int *)malloc(sizeof(int) * dataSz);
 		// Implement parse data block
 
-		printf("whatchup, data size: %d\n", dataSz);
-		for(int i = 0; i < dataSz; i++){
-			fscanf(inFile, "%d ", &ppData[i]);
+		//printf("whatchup, data size: %d\n", dataSz);
+		/*for(int i = 0; i < dataSz; i++){
+			fscanf(inFile, "%d", &ppData[i]);
+			//printf("%d ", ppData[i]);
 		}
+		*/
 	}
+	//printf("\nout of file\n");
+	fclose(inFile);
 	return dataSz;
 }
 
@@ -148,7 +188,7 @@ int main(void)
 	{
 		int *pDataSrc, *pDataCopy;
 		int dataSz = parseData(fileNames[i], &pDataSrc);
-		
+		//printf("blah balh\n");
 		if (dataSz <= 0)
 			continue;
 		
